@@ -15,6 +15,21 @@
             </div>
         </form>
         <script>
+            function createDownload(data, name){
+                var index = name.lastIndexOf(".");
+                if (index !== -1) {
+                    name=name.substr(0, index);
+                }
+                name=name+'.srt'
+                var srt = document.createElement('a');
+                srt.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
+                srt.setAttribute('download', name);
+                srt.style.display = 'none';
+                document.body.appendChild(srt);
+                srt.click();
+                document.body.removeChild(srt);
+                return
+            }
             'use strict';
             ;( function( $, window, document, undefined )
             {
@@ -84,7 +99,7 @@
                                                     alert('Subtitles not found')
                                                 }
                                                 else{
-                                                    alert('File uploaded successfully! Working on your request');
+                                                    createDownload(data,file.name)
                                                 }
                                                 location.reload();
                                             },
