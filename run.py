@@ -7,8 +7,10 @@ app = Flask(__name__)
 @app.route('/subtitle',methods = ['POST', 'GET'])
 def welcome_user():
    if request.method == 'POST':
-      hash=request.json['hash']
-      subs=provision(hash, constants.LANGUAGE)
+      opensubsHash=request.json['opensubsHash']
+      subsdbHash=request.json['subsdbHash']
+      movieSize=request.json['movieSize']
+      subs=provision(subsdbHash, constants.LANGUAGE)
       if not subs:
          return "bad_request"
       return subs

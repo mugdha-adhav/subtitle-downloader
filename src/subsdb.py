@@ -8,7 +8,7 @@ def getSubs(HASH,LANG):
     ACTION = "download"
     URL = constants.SUBDB_URL + "/?action=" + ACTION + "&hash=" + HASH + "&language=" + LANG
     HEADERS={
-        'User-Agent': 'SubDB/1.0 (subsworld/1.0; http://github.com/mugdhaadhav/subtitle-downloader)'
+        'User-Agent': constants.USER_AGENT
     }
     response = requests.get(url = URL, headers=HEADERS)
     if response.status_code == 400:
@@ -18,4 +18,7 @@ def getSubs(HASH,LANG):
     elif response.status_code == 200:
         logging.info("Subtitles found in subsdb for hash "+HASH)
         return response.text
+    else: 
+        logging.info("Error retrieving subtitles. Response status code is %d",response.status_code)
+        logging.info("Response message is: "+response.text)
     return None

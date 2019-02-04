@@ -1,2 +1,6 @@
 LANGUAGE="en"
+USERNAME="mugdhaadhav"
+PASSWORD="yui4avii"
 SUBDB_URL="http://api.thesubdb.com"
+OPENSUBTITLES_URL="http://api.opensubtitles.org/xml-rpc"
+USER_AGENT="SubDB/1.0 (subsworld/1.0; http://github.com/mugdhaadhav/subtitle-downloader)"

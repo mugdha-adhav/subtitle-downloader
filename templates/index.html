@@ -4,6 +4,8 @@
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/home.css') }}">    
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/md5.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/openSubsHash.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/subsDbHash.js') }}"></script>
     </head>
     <body>
         <form method="post" action="/subtitle" enctype="multipart/form-data" novalidate class="box">
@@ -30,6 +32,7 @@
                 document.body.removeChild(srt);
                 return
             }
+
             'use strict';
             ;( function( $, window, document, undefined )
             {
@@ -62,7 +65,6 @@
                     $form.on( 'submit', function( e )
                     {
                         e.preventDefault();
-                        var ajaxData = new FormData( $form.get( 0 ) );
                         if( droppedFiles )
                         {
                             //for single file upload
@@ -72,47 +74,30 @@
                             }
                             $.each( droppedFiles, function( i, file )
                             {
-                                var r = new FileReader();
-                                var readsize = 64 * 1024;
-                                var filesize = file.size
-                                var startBytes = file.slice(0, readsize)
-                                var endBytes = file.slice(filesize-readsize, filesize)
-                                var blob = new Blob([startBytes,endBytes])
-                                r.onload =function(e){
-                                    if(e.target.result == null){
-                                        alert("error occured")
+                                subsRequest(file)
+                                $.ajax(
+                                {
+                                    url: 			$form.attr( 'action' ),
+                                    type:			$form.attr( 'method' ),
+                                    data: 			JSON.stringify({'opensubsHash': opensubsval, 'subsdbHash': subsdbval, 'movieSize': file.size}),
+                                    cache: false,
+                                    contentType: 'application/json',
+                                    success: function( data )
+                                    {
+                                        if (data=="bad_request"){
+                                            alert('Subtitles not found')
+                                        }
+                                        else{
+                                            createDownload(data,file.name)
+                                        }
+                                        location.reload();
+                                    },
+                                    error: function()
+                                    {
+                                        alert( 'Server down!!' );
                                         location.reload();
                                     }
-                                    else{
-                                        var data = e.target.result
-                                        var hash = md5(data);
-                                        $.ajax(
-                                        {
-                                            url: 			$form.attr( 'action' ),
-                                            type:			$form.attr( 'method' ),
-                                            data: 			JSON.stringify({'hash': hash}),
-                                            cache: false,
-                                            contentType: 'application/json',
-                                            success: function( data )
-                                            {
-                                                if (data=="bad_request"){
-                                                    alert('Subtitles not found')
-                                                }
-                                                else{
-                                                    createDownload(data,file.name)
-                                                }
-                                                location.reload();
-                                            },
-                                            error: function()
-                                            {
-                                                alert( 'Server down!!' );
-                                                location.reload();
-                                            }
-                                        });
-                                    }
-                                }
-                                r.readAsArrayBuffer(blob);
-                                ajaxData.append( $input.attr( 'name' ), file );
+                                });
                             });
                         }
                         
