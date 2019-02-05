@@ -8,7 +8,11 @@ def login():
     transport = Transport()
     transport.user_agent = constants.USER_AGENT_OPENSUBS
     xmlrpc = ServerProxy(constants.OPENSUBTITLES_URL, allow_none=True, transport=transport)
-    data = xmlrpc.LogIn(constants.USERNAME, constants.PASSWORD, constants.LANGUAGE, constants.USER_AGENT_OPENSUBS)
+    try:
+        data = xmlrpc.LogIn(constants.USERNAME, constants.PASSWORD, constants.LANGUAGE, constants.USER_AGENT_OPENSUBS)
+    except:
+        logging.warning("Error occured while establishing connection to opensubtitles...")
+        return None
     if '200' == data.get('status').split()[0]:
         logging.info("Got token from opensubtitles")
         return data.get('token'),xmlrpc  
