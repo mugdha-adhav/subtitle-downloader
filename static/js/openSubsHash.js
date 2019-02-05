@@ -1,4 +1,4 @@
-function opensubs(file){
+function opensubs(file, callback){
     var HASH_CHUNK_SIZE = 65536, //64 * 1024
         longs = [],
         temp = file.size;
@@ -55,14 +55,7 @@ function opensubs(file){
     }
     read(0, HASH_CHUNK_SIZE, function() {
         read(file.size - HASH_CHUNK_SIZE, undefined, function() {
-            value=binl2hex(longs)
-            alert(value);
-            return value;
+            callback(binl2hex(longs))
         });
     });
-}
-
-function subsRequest(file){
-    var opensubsHash=opensubs(file)
-    alert(opensubsHash);
 }

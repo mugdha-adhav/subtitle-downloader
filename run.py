@@ -4,13 +4,17 @@ from src import provision
 import constants
 app = Flask(__name__)
 
+class SubsRequest:
+   def __init__(self, opensubshash, subsdbhash, filesize):
+      self.opensubshash = opensubshash
+      self.subsdbhash = subsdbhash
+      self.filesize = filesize
+
 @app.route('/subtitle',methods = ['POST', 'GET'])
 def welcome_user():
    if request.method == 'POST':
-      opensubsHash=request.json['opensubsHash']
-      subsdbHash=request.json['subsdbHash']
-      movieSize=request.json['movieSize']
-      subs=provision(subsdbHash, constants.LANGUAGE)
+      subrequest = SubsRequest(request.json['opensubsHash'], request.json['subsdbHash'], request.json['fileSize'])
+      subs=provision(subrequest, constants.LANGUAGE)
       if not subs:
          return "bad_request"
       return subs

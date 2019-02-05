@@ -8,7 +8,7 @@ def getSubs(HASH,LANG):
     ACTION = "download"
     URL = constants.SUBDB_URL + "/?action=" + ACTION + "&hash=" + HASH + "&language=" + LANG
     HEADERS={
-        'User-Agent': constants.USER_AGENT
+        'User-Agent': constants.USER_AGENT_SUBSDB
     }
     response = requests.get(url = URL, headers=HEADERS)
     if response.status_code == 400:

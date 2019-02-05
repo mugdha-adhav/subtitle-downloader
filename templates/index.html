@@ -74,30 +74,33 @@
                             }
                             $.each( droppedFiles, function( i, file )
                             {
-                                subsRequest(file)
-                                $.ajax(
-                                {
-                                    url: 			$form.attr( 'action' ),
-                                    type:			$form.attr( 'method' ),
-                                    data: 			JSON.stringify({'opensubsHash': opensubsval, 'subsdbHash': subsdbval, 'movieSize': file.size}),
-                                    cache: false,
-                                    contentType: 'application/json',
-                                    success: function( data )
-                                    {
-                                        if (data=="bad_request"){
-                                            alert('Subtitles not found')
-                                        }
-                                        else{
-                                            createDownload(data,file.name)
-                                        }
-                                        location.reload();
-                                    },
-                                    error: function()
-                                    {
-                                        alert( 'Server down!!' );
-                                        location.reload();
-                                    }
-                                });
+                                subsdb(file, function(subsdbval){
+                                    opensubs(file,function(opensubsval){
+                                        $.ajax(
+                                        {
+                                            url: 			$form.attr( 'action' ),
+                                            type:			$form.attr( 'method' ),
+                                            data: 			JSON.stringify({opensubsHash: opensubsval, subsdbHash: subsdbval, fileSize: file.size}),
+                                            cache: false,
+                                            contentType: 'application/json',
+                                            success: function( data )
+                                            {
+                                                if (data=="bad_request"){
+                                                    alert('Subtitles not found')
+                                                }
+                                                else{
+                                                    createDownload(data,file.name)
+                                                }
+                                                location.reload();
+                                            },
+                                            error: function()
+                                            {
+                                                alert( 'Server down!!' );
+                                                location.reload();
+                                            }
+                                        });
+                                    })
+                                })
                             });
                         }
                         

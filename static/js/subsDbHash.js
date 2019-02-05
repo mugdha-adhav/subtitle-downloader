@@ -9,7 +9,7 @@ function subsdb(file, callback){
         if(e.target.result != null){
             data = e.target.result
             hash = md5(data);
-            callback.call(file,hash);
+            callback(hash);
         }
     }
     r.readAsArrayBuffer(blob);

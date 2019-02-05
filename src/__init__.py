@@ -2,16 +2,17 @@ import src.subsdb
 import src.opensubtitles
 import logging
 
-def provision(hash, lang):
+def provision(subrequest, lang):
     logging.basicConfig(level=logging.DEBUG)
-    logging.info("Received request for hash "+hash)
-    subData = subsdb.getSubs(hash,lang)
+    logging.info("Received request for subtitle download ")
+    
+    subData=opensubtitles.getSubs(subrequest.opensubshash, subrequest.filesize, lang)
     if subData:
         return subData
-    
-    subData=opensubtitles.getSubs(hash, lang)
+        
+    subData = subsdb.getSubs(subrequest.subsdbhash,lang)
     if subData:
         return subData
 
-    logging.info("Subtitles for "+hash+" not found")
+    logging.info("Subtitles not found")
     return None
