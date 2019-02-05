@@ -12,7 +12,7 @@ def login():
         data = xmlrpc.LogIn(constants.USERNAME, constants.PASSWORD, constants.LANGUAGE, constants.USER_AGENT_OPENSUBS)
     except:
         logging.warning("Error occured while establishing connection to opensubtitles...")
-        return None
+        return None,None
     if '200' == data.get('status').split()[0]:
         logging.info("Got token from opensubtitles")
         return data.get('token'),xmlrpc  
