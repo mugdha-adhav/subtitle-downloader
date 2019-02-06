@@ -11,7 +11,9 @@ def getSubs(HASH,LANG):
         'User-Agent': constants.USER_AGENT_SUBSDB
     }
     response = requests.get(url = URL, headers=HEADERS)
-    if response.status_code == 400:
+    if not response:
+        logging.warning("Subsdb no response received.") 
+    elif response.status_code == 400:
         logging.warning("Subsdb request malformed. Returned status code: ", response.status_code) 
     elif response.status_code == 404:
         logging.info("Subtitles for hash "+HASH+" not found in subsdb")
