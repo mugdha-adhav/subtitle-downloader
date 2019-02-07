@@ -4,8 +4,8 @@ from flask_cors import CORS, cross_origin
 from src import provision
 import constants
 app = Flask(__name__)
-cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app, resources={r"/subtitle": {"origins": "http://www.subsworld.site"}})
 
 class SubsRequest:
    def __init__(self, opensubshash, subsdbhash, filesize):
@@ -13,8 +13,8 @@ class SubsRequest:
       self.subsdbhash = subsdbhash
       self.filesize = filesize
 
-@cross_origin()
 @app.route('/subtitle',methods = ['POST', 'GET'])
+@cross_origin(origin='*',headers=['Content-Type'])
 def welcome_user():
    if request.method == 'POST':
       subrequest = SubsRequest(request.json['opensubsHash'], request.json['subsdbHash'], request.json['fileSize'])
