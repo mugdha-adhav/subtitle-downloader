@@ -13,11 +13,19 @@
 	-webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
 	transition: outline-offset .15s ease-in-out, background-color .15s linear;
 }
-.box .box__content
+img.box__content
 {
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
 	margin-bottom: 40px;
-	position: relative;
-	padding-left: 30%;
+}
+span.box__content
+{
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+	margin-bottom: 40px;
 }
 .box__button,
 .box__file

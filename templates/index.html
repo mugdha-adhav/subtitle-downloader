@@ -8,11 +8,11 @@
         <script type="text/javascript" src="{{ url_for('static', filename='js/subsDbHash.js') }}"></script>
     </head>
     <body>
-        <form method="post" action="/subtitle" enctype="multipart/form-data" novalidate class="box">
-            <div class="box__input">
+        <form class="box" method="post" action="/subtitle" enctype="multipart/form-data" novalidate>
+            <div>
                 <img class="box__content" src="{{ url_for('static', filename='images/download.png') }}"></img>
-                <input type="file" name="files" id="file" class="box__file" data-multiple-caption="{count} files selected" multiple />
                 <span class="box__content"> Drag your movie file here !!!</span>
+                <input type="file" name="files" id="file" class="box__file" data-multiple-caption="{count} files selected" multiple />
                 <button type="submit" class="box__button">Upload</button>
             </div>
         </form>
