@@ -30,6 +30,9 @@ def getSubs(hash,size,lang):
         if '200' == data.get('status').split()[0]:
             logging.info("Searching subtitles ended successfully...")
             data=data.get('data')  
+            if not data:
+                logging.warning("Empty data returned from opensubtitles...")
+                return None
             data=xmlrpc.DownloadSubtitles(token, [data[0].get('IDSubtitleFile')])
             if '200' == data.get('status').split()[0]:
                 logging.info("Downloading subtitles ended successfully...")

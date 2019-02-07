@@ -2,6 +2,7 @@
 <html>
     <head>
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">    
+        <link href='https://fonts.googleapis.com/css?family=Montaga' rel='stylesheet'>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/md5.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/openSubsHash.js') }}"></script>
@@ -11,6 +12,7 @@
         <form class="box" method="post" action="/subtitle" enctype="multipart/form-data" novalidate>
             <div>
                 <img class="box__content" src="{{ url_for('static', filename='images/download.png') }}"></img>
+                <div class="box__loader"></div>
                 <span class="box__content"> Drag your movie file here !!!</span>
                 <input type="file" name="files" id="file" class="box__file" data-multiple-caption="{count} files selected" multiple />
                 <button type="submit" class="box__button">Upload</button>
@@ -52,7 +54,7 @@
                     {
                         $form.addClass( 'is-dragover' );
                     })
-                    .on( 'dragleave dragend drop', function()
+                    .on( 'dragleave dragend', function()
                     {
                         $form.removeClass( 'is-dragover' );
                     })
@@ -64,6 +66,7 @@
         
                     $form.on( 'submit', function( e )
                     {
+                        $('.box__loader').css('visibility','visible');
                         e.preventDefault();
                         if( droppedFiles )
                         {
@@ -83,6 +86,7 @@
                                             data: 			JSON.stringify({opensubsHash: opensubsval, subsdbHash: subsdbval, fileSize: file.size}),
                                             cache: false,
                                             contentType: 'application/json',
+                                            
                                             success: function( data )
                                             {
                                                 var obj = JSON.parse(data)
@@ -92,11 +96,15 @@
                                                 else if (obj.status==200){
                                                     createDownload(obj.data,file.name)
                                                 }
-                                                location.reload();
                                             },
                                             error: function()
                                             {
-                                                alert( 'Server down!!' );
+                                                alert( 'Server error !!!' );
+                                            },
+                                            complete: function()
+                                            {
+                                                $form.removeClass( 'is-dragover' );
+                                                $('.box__loader').css('visibility','hidden');
                                                 location.reload();
                                             }
                                         });
