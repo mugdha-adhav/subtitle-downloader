@@ -13,13 +13,13 @@ def getSubs(HASH,LANG):
     response = requests.get(url = URL, headers=HEADERS)
     if not response:
         logging.warning("Subsdb no response received.") 
+    elif response.status_code == 200:
+        logging.info("Subtitles found in subsdb for hash "+HASH)
+        return response.text
     elif response.status_code == 400:
         logging.warning("Subsdb request malformed. Returned status code: ", response.status_code) 
     elif response.status_code == 404:
         logging.info("Subtitles for hash "+HASH+" not found in subsdb")
-    elif response.status_code == 200:
-        logging.info("Subtitles found in subsdb for hash "+HASH)
-        return response.text
     else: 
         logging.info("Error retrieving subtitles. Response status code is %d",response.status_code)
         logging.info("Response message is: "+response.text)
