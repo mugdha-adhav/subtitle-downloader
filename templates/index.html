@@ -83,13 +83,15 @@
                                             data: 			JSON.stringify({opensubsHash: opensubsval, subsdbHash: subsdbval, fileSize: file.size}),
                                             cache: false,
                                             contentType: 'application/json',
+                                            crossDomain: true,
                                             success: function( data )
                                             {
-                                                if (data=="bad_request"){
+                                                var obj = JSON.parse(data)
+                                                if (obj.status==400){
                                                     alert('Subtitles not found')
                                                 }
-                                                else{
-                                                    createDownload(data,file.name)
+                                                else if (obj.status==200){
+                                                    createDownload(obj.data,file.name)
                                                 }
                                                 location.reload();
                                             },
