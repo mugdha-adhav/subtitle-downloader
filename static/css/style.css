@@ -22,7 +22,7 @@
 }
 .box__loader
 {
-	visibility: visible;
+	visibility: hidden;
 	margin: 5% auto 5% auto;
 	border: 7px solid #f3f3f3;
 	border-radius: 50%;
