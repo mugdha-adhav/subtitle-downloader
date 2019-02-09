@@ -1,13 +1,11 @@
 .box
 {
-	width: 100%;
-	max-width: 600px; /* 800 */
-	max-height: 300px;
+	display: block;
+	margin: 8% auto;
+	width: 25%;
 	text-align: center;
-	margin: 0 auto;
-	margin-top: 5%;
 	background-color: #0187AC;
-	padding: 100px 20px;
+	padding: 3%;
 	outline: 4px dashed #c9c9c9;
 	outline-offset: -15px;
 	box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 4px rgba(0, 0, 0, 0.19);
@@ -18,29 +16,26 @@
 .box__content
 {
 	color: #dfdfdf;
-	font-family: Georgia,'Microsoft YaHei',simsun,serif;
+	font-family: Helvetica, Arial,'Microsoft YaHei';
 	font-size: 1.3rem;
 	word-spacing: 5px;
+}
+.box__loader
+{
+	visibility: visible;
+	margin: 5% auto 5% auto;
+	border: 7px solid #f3f3f3;
+	border-radius: 50%;
+	border-top: 7px solid #3498db;
+	width: 40px;
+	height: 40px;
+	-webkit-animation: spin 2s linear infinite; /* Safari */
+	animation: spin 2s linear infinite;
 }
 .box__button,
 .box__file
 {
 	display: none;
-}
-.box__loader
-{
-	visibility: hidden;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 30px;
-	margin-bottom: 20px;
-	border: 10px solid #f3f3f3;
-	border-radius: 50%;
-	border-top: 10px solid #3498db;
-	width: 50px;
-	height: 50px;
-	-webkit-animation: spin 2s linear infinite; /* Safari */
-	animation: spin 2s linear infinite;
 }
 .box.is-dragover
 {
